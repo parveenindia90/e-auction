@@ -26,5 +26,18 @@ Steps fro creating docker image and pushing to docker hub
 2. docker tag seller-app:latest 902231100712.dkr.ecr.ap-south-1.amazonaws.com/seller-app:latest
 3. docker push parveenindia90/seller-app:latest
 
+Steos to deploy to aws ecs fargate
 
-
+1. Create a vpc
+2. create two public and two private subnets under vpc
+2. create internet gateway - under VPC page
+4. create NET gateway under VPC
+5. Create two route tables(private and public) and assign internet gateway and subnets accordingly.
+6. create two load balancers for eureka and api-gateway
+7. create two target groups for eureka and api-agteway
+8. craete ECR repository and push docker image into repo using aws cli or use docker hub
+8. create cluster with container insights
+10.create task
+11. create service - assign load balancers for eureka and api-gateway service created above
+12 access the app at api-gateway load balancers
+13.If API gateway is required then create a internal network load balancer, create VPC link and create API with that VPC link. 
