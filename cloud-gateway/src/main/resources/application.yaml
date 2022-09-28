@@ -1,0 +1,39 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: SELLER-APP
+          uri: lb://SELLER-APP
+          predicates:
+            - Path=/e-auction/api/v1/seller/**, /productDetails/**
+        - id: BUYER-APP
+          uri: lb://BUYER-APP
+          predicates:
+            - Path=/e-auction/api/v1/buyer/**
+        - id: PUBSUB-APP
+          uri: lb://PUBSUB-APP
+          predicates:
+            - Path=/e-auction/api/v1/producer/**, /e-auction/api/v1/consumer/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: PUBSUB-APP
+                fallbackuri: forward:/pubsubServiceFallBack
+
+eureka:
+  client:
+    healthcheck:
+      enabled: true
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: ${DEFAULT_ZONE:http://localhost:8761/eureka/}
+  instance:
+    prefer-ip-address: true
+
+AWS_METADATA_URL: http://169.254.170.2/v2/metadata

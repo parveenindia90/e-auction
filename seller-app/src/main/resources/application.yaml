@@ -1,0 +1,41 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: SELLER-APP
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+
+aws:
+  serviceEndPoint: dynamodb.ap-south-1.amazonaws.com
+  region: ap-south-1
+  accessKey: ${dynamodb_accessKey}
+  secretKey: ${dynamodb_secretKey}
+
+product:
+  category: Paiting,Sculptor,Ornament
+
+feign:
+  client:
+    config:
+      default:
+        connectionTimeout: 10000
+        readTimeout: 10000
+        loggerLevel: basic
+  circuitbreaker:
+    enabled: true
+
+eureka:
+  client:
+    healthcheck:
+      enabled: true
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: ${DEFAULT_ZONE:http://localhost:8761/eureka/}
+  instance:
+    prefer-ip-address: true
+
+AWS_METADATA_URL: http://169.254.170.2/v2/metadata

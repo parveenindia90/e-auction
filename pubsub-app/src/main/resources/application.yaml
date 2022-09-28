@@ -1,0 +1,52 @@
+server:
+  port: 8085
+
+cloud:
+  aws:
+    stack: false
+    region:
+      use-default-aws-region-chain: true
+      static: ap-south-1
+      auto: false
+    credentials:
+      access-key: ${sqs_access_key}
+      secret-key: ${sqs_secret_key}
+    end-point:
+      uri: ${sqs_endpoint_uri}
+
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
+        internal:
+          InstanceMetadataServiceResourceFetcher: error
+
+spring:
+  application:
+    name: PUBSUB-APP
+  cloud:
+    stream:
+      bindings:
+        output:
+          destination: bid-stream
+
+aws:
+  serviceEndPoint: dynamodb.ap-south-1.amazonaws.com
+  region: ap-south-1
+  accessKey: ${dynamodb_accessKey}
+  secretKey: ${dynamodb_secretKey}
+
+eureka:
+  client:
+    healthcheck:
+      enabled: true
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: ${DEFAULT_ZONE:http://localhost:8761/eureka/}
+  instance:
+    prefer-ip-address: true
+
+AWS_METADATA_URL: http://169.254.170.2/v2/metadata

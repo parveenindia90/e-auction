@@ -1,0 +1,5 @@
+aws:
+  serviceEndPoint: dynamodb.ap-south-1.amazonaws.com
+  region: ap-south-1
+  accessKey: ${aws.accessKey}
+  secretKey: ${aws.secretKey}
